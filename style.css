@@ -1,0 +1,37 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #e3f2fd, #90caf9); /* Gradient background */
+    font-family: Arial, sans-serif;
+  }
+.navbar-brand img {
+    width: 50px;
+}
+
+main {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.video-container {
+max-width: 800px; /* מקסימום רוחב 400px */
+margin: 0 auto; /* מרכז את הסרטון */
+height: auto;
+}
+video {
+width: 100%;
+height: auto;
+}
+h1, h2 {
+    margin-bottom: 20px;
+}
+.card {
+    margin-bottom: 20px;
+}
+.container {
+    max-width: 900px;
+}
+.hidden {
+    display: none;
+}

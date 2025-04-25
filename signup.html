@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Sign Up</title>
+    <style>
+      body {
+        background: url('https://source.unsplash.com/random/1600x900') no-repeat center center fixed;
+        background-size: cover;
+        height: 100vh;
+        background: linear-gradient(to bottom right, #e3f2fd, #90caf9);
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 400px;
+        margin-top: 50px;
+      }
+      .card {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 30px;
+        border-radius: 10px;
+      }
+      .alert {
+        display: none;
+      }
+      .btn-primary {
+        width: 100%;
+      }
+      .form-label {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="homePage.html">
+          <img src="img/logo.png" alt="Project Logo" class="me-2" style="width: 40px; height: 40px;">
+          <span>My Project</span>
+        </a>
+        <ul class="navbar-nav ms-3 d-flex align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="signup.html">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="card">
+        <h3 class="text-center mb-4">Sign Up</h3>
+        <form>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter your username">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter your password">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email">
+          </div>
+          <div class="alert alert-danger" role="alert" id="alert"></div>
+          <button type="button" class="btn btn-primary" onclick="saveUser()">Submit</button>
+          <div class="text-center mt-3">
+            <p>Already have an account? <a href="login.html" class="text-primary">Login here</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyAiBzaKTD9uqySxJB6_ynh71fKvZp9e0ok",
+        authDomain: "shahar-ori-project.firebaseapp.com",
+        databaseURL: "https://shahar-ori-project-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "shahar-ori-project",
+        storageBucket: "shahar-ori-project.firebasestorage.app",
+        messagingSenderId: "280321083449",
+        appId: "1:280321083449:web:04a00268976647ac1425e8",
+        measurementId: "G-096JB58PQZ"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+
+      function User(email, username, uid) {
+        this.username = username;
+        this.email = email;
+        this.uid = uid;
+      }
+
+      function isUsernameTaken(username) {
+        return firebase.database().ref("users").orderByChild("username").equalTo(username).once("value")
+          .then(snapshot => snapshot.exists());
+      }
+
+      function saveUser() {
+        const emailInput = document.getElementById("email").value;
+        const passwordInput = document.getElementById("password").value;
+        const usernameInput = document.getElementById("username").value;
+        const alertBox = document.getElementById("alert");
+        alertBox.style.display = "none";
+
+        isUsernameTaken(usernameInput)
+          .then(isTaken => {
+            if (isTaken) {
+              alertBox.innerText = "Username is already taken. Please choose another.";
+              alertBox.style.display = "block";
+            } else {
+              firebase.auth().createUserWithEmailAndPassword(emailInput, passwordInput)
+                .then(userCredential => {
+                  const user = userCredential.user;
+                  const tempUser = new User(emailInput, usernameInput, user.uid);
+                  firebase.database().ref("users/" + user.uid).set(tempUser);
+                  localStorage.setItem("username", usernameInput);
+                  window.location.href = "homePage.html";
+                })
+                .catch(error => {
+                  alertBox.innerText = error.message;
+                  alertBox.style.display = "block";
+                });
+            }
+          })
+          .catch(error => {
+            alertBox.innerText = "Error checking username: " + error.message;
+            alertBox.style.display = "block";
+          });
+      }
+    </script>
+  </body>
+</html>

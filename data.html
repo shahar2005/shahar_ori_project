@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #e3f2fd, #90caf9);
+      font-family: Arial, sans-serif;
+    }
+    .control-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 50px;
+    }
+    .control-buttons button {
+      font-size: 32px;
+      padding: 15px 30px;
+    }
+    .motor-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    .motor {
+      width: 100px;
+      height: 100px;
+      background: gray;
+      border-radius: 50%;
+      position: relative;
+    }
+    .motor::before {
+      content: '';
+      width: 10px;
+      height: 40px;
+      background: black;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <!-- לוגו -->
+    <a class="navbar-brand d-flex align-items-center" href="homePage.html">
+      <img src="img/logo.png" alt="Project Logo" class="me-2" style="width: 40px; height: 40px;">
+      <span>My Project</span>
+    </a>
+
+    <!-- כפתורי LOGIN ו-SIGN UP -->
+    <ul class="navbar-nav ms-3 d-flex align-items-center">
+      <li class="nav-item">
+        <a class="nav-link" id="welcomeMessage" style="font-weight: bold; color: #f0ad4e;"></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="logoutbutton">Logout</a>
+      </li>
+    </ul>
+
+    <!-- כפתור התפריט (ההמבורגר) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- שאר התפריט -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="homePage.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="myProjects.html">My Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="data.html">New Project</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ProjectComponents.html">Project Components</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container mt-5 text-center">
+  <h2>Enter Your Experiment Data</h2>
+  <div class="control-buttons">
+    <button class="btn btn-secondary" id="rightbtn" onclick="startMoving(-1); sendDataToESP32(1);">&#9664;</button>
+    <button class="btn btn-warning" id="pausebtn" onclick="pauseExperiment(); sendDataToESP32(0);">&#10074;&#10074;</button>
+    <button class="btn btn-secondary" id="leftbtn" onclick="startMoving(1); sendDataToESP32(2);">&#9654;</button>
+  </div>
+  <div class="motor-container">
+    <div class="motor" id="motor"></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-database-compat.js"></script>
+<script>
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAiBzaKTD9uqySxJB6_ynh71fKvZp9e0ok",
+    authDomain: "shahar-ori-project.firebaseapp.com",
+    databaseURL: "https://shahar-ori-project-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "shahar-ori-project",
+    storageBucket: "shahar-ori-project.firebasestorage.app",
+    messagingSenderId: "280321083449",
+    appId: "1:280321083449:web:04a00268976647ac1425e8",
+    measurementId: "G-096JB58PQZ"
+  };
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// פונקציה לשליחת פקודות
+function sendDataToESP32(data) {
+
+    firebase.database().ref("Node4/RX").set(data)
+      .then(() => {
+        console.log(`Data sent successfully: ${data.toString(2).padStart(8, '0')}`);
+      })
+      .catch((error) => {
+        console.error('Error sending data:', error);
+      });
+  }
+
+  firebase.database().ref("Node4/TX/A").on('value', (snapshot) => {
+    const data = snapshot.val();
+    
+    if (data) { // Ensure data is valid
+        const time = data * 0.005;
+        const t = (Math.sqrt((2 * 0.8) / 9.8)) || 0;
+        const speed = (0.27 / time) || 0;
+        const distance = (speed * t) || 0;
+        const angle = Math.floor(Math.atan((9.8 * t)/speed) * (180 / Math.PI)) || 0;
+            // Save data to localStorage
+          const experiments = JSON.parse(localStorage.getItem('myProjects')) || [];
+          const newExperiment = { time, speed, distance, angle };
+          experiments.push(newExperiment);
+          localStorage.setItem('myProjects', JSON.stringify(experiments));
+        }
+     else {
+        console.error("Error: Invalid data received from Firebase", data);
+    }
+});
+
+
+
+  document.getElementById("logoutbutton").addEventListener("click", () => {
+    firebase.auth().signOut()
+      .then(() => {
+        alert("You have been logged out.");
+        window.location.href = "homePage.html"; // Redirect to home page
+      })
+      .catch((error) => {
+        console.error("Error logging out:", error);
+      });
+  });
+  const username = localStorage.getItem("username");
+  document.getElementById("welcomeMessage").innerText = `Hello, ${username}!`;
+
+</script>
+<script>
+let motor = document.getElementById("motor");
+let angle = 0;
+let direction = 0;
+let speed = 5; // שמירת מהירות קבועה
+let animationFrame;
+let lastDir = 0;
+
+function startMoving(dir) {
+  if (dir !== lastDir) {
+    direction = dir; // מחליפים כיוון בלי להגביר מהירות
+  }
+  if (!animationFrame) {
+    animateMotor();
+  }
+  lastDir = dir;
+}
+
+function animateMotor() {
+  if (direction === 0) {
+    animationFrame = null;
+    return;
+  }
+  angle += direction * speed;
+  motor.style.transform = `rotate(${angle}deg)`;
+  animationFrame = requestAnimationFrame(animateMotor);
+}
+
+function pauseExperiment() {
+  direction = 0;
+  cancelAnimationFrame(animationFrame);
+  animationFrame = null;
+}
+
+</script>
+
+</body>
+</html>
