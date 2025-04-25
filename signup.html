@@ -41,7 +41,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="homePage.html">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
           <img src="img/logo.png" alt="Project Logo" class="me-2" style="width: 40px; height: 40px;">
           <span>My Project</span>
         </a>
@@ -127,7 +127,7 @@
                   const tempUser = new User(emailInput, usernameInput, user.uid);
                   firebase.database().ref("users/" + user.uid).set(tempUser);
                   localStorage.setItem("username", usernameInput);
-                  window.location.href = "homePage.html";
+                  window.location.href = "index.html";
                 })
                 .catch(error => {
                   alertBox.innerText = error.message;
