@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <title>Project Platform</title>
+    <style>
+      #alert {
+        display: none;
+      }
+      .navbar .btn {
+        margin-left: 10px;
+      }
+      /* Background style */
+      body {
+    background: linear-gradient(to bottom right, #e3f2fd, #90caf9); /* Gradient background */
+    font-family: Arial, sans-serif;
+  }
+      .container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .card {
+        margin-bottom: 30px;
+        height: 100%; /* Ensures cards fill equal height */
+      }
+      .card-body {
+        text-align: center;
+      }
+    .card-img-top {
+    height: 200px; /* Set a fixed height for images */
+    object-fit: cover; /* Ensures images fit nicely without distortion */
+    }
+    .main-image {
+    width: 55%; /* Full width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 600px; /* Optional: Limit the height */
+    object-fit: cover; /* Ensures image covers the width */
+    border-radius: 8px; /* Optional: Add rounded corners */
+    margin-bottom: 30px; /* Add spacing below the image */
+  }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <!-- לוגו -->
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+          <img src="img/logo.png" alt="Project Logo" class="me-2" style="width: 40px; height: 40px;">
+          <span>My Project</span>
+        </a>
+    
+        <!-- כפתורי LOGIN ו-SIGN UP -->
+        <ul class="navbar-nav ms-3 d-flex align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" id="loginbutton" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="signupbutton" href="signup.html">Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="welcomeMessage" style="display: none; font-weight: bold; color: #f0ad4e;"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="logoutbutton" style="display: none;">Logout</a>
+          </li>
+        </ul>
+        <!-- כפתור התפריט (ההמבורגר) -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- שאר התפריט -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item" style="display: none;" id="homeMenu">
+              <a class="nav-link active" href="index.html">Home</a>
+            </li>
+            <li class="nav-item" style="display: none;" id="myProjectsMenu">
+              <a class="nav-link" href="myProjects.html">My Projects</a>
+            </li>
+            <li class="nav-item" style="display: none;" id="aboutMenu">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item" style="display: none;" id="newProjectMenu">
+              <a class="nav-link" href="data.html">New Project</a>
+            </li>
+            <li class="nav-item" style="display: none;" id="contactMenu">
+              <a class="nav-link" href="ProjectComponents.html">Project Components</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+      <div class="container my-5">
+        <h1 class="text-center mb-4">Welcome to Your Project Platform</h1>
+      
+        <!-- Image Section -->
+        <div class="text-center mb-5">
+            <img src="img/p4.png" alt="Platform Showcase" class="main-image">
+        </div>
+      
+        <!-- Cards Section -->
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+              <img src="img/p1.png" class="card-img-top" alt="Create Projects">
+              <div class="card-body">
+                <h5 class="card-title">Create Projects</h5>
+                <p class="card-text">Easily create and manage new projects with our intuitive tools.</p>
+                <a href="data.html" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+              <img src="img/p2.png" class="card-img-top" alt="Track Progress">
+              <div class="card-body">
+                <h5 class="card-title">Track Progress</h5>
+                <p class="card-text">Monitor your project's progress in real time with detailed analytics.</p>
+                <a href="myProjects.html" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+              <img src="img/p3.webp" class="card-img-top" alt="Collaborate with Others">
+              <div class="card-body">
+                <h5 class="card-title">Collaborate with Others</h5>
+                <p class="card-text">Work seamlessly with teammates by sharing and managing projects together.</p>
+                <a href="#" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- New Section -->
+    <div class="container my-5">
+      <h2 class="text-center mb-4">Why Choose Us?</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">User-Friendly Design</h5>
+              <p class="card-text">Our platform is designed with simplicity and usability in mind.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Advanced Tools</h5>
+              <p class="card-text">Access innovative tools to make your project management seamless.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Scalable Solutions</h5>
+              <p class="card-text">Our solutions grow with your needs, whether you are a small team or a large enterprise.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container my-5">
+      <h2 class="text-center mb-4">Features</h2>
+      <div class="row text-center">
+        <div class="col-md-3">
+          <i class="bi bi-code-slash display-4 text-primary"></i>
+          <h5>Custom Workflows</h5>
+          <p>Tailor your workflows to suit your needs.</p>
+        </div>
+        <div class="col-md-3">
+          <i class="bi bi-cloud-upload-fill display-4 text-success"></i>
+          <h5>Cloud Storage</h5>
+          <p>Save and access your projects anytime, anywhere.</p>
+        </div>
+        <div class="col-md-3">
+          <i class="bi bi-bar-chart-fill display-4 text-warning"></i>
+          <h5>Analytics</h5>
+          <p>Get detailed insights into your project performance.</p>
+        </div>
+        <div class="col-md-3">
+          <i class="bi bi-gear-fill display-4 text-info"></i>
+          <h5>Automation</h5>
+          <p>Automate repetitive tasks to save time.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="container text-center my-5">
+      <div class="p-5 bg-primary text-white rounded">
+        <h2>Ready to Take Your Projects to the Next Level?</h2>
+        <p>Sign up today and get started for free!</p>
+        <a href="signup.html" class="btn btn-light btn-lg mt-3">Get Started</a>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-database-compat.js"></script>
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAiBzaKTD9uqySxJB6_ynh71fKvZp9e0ok",
+        authDomain: "shahar-ori-project.firebaseapp.com",
+        databaseURL: "https://shahar-ori-project-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "shahar-ori-project",
+        storageBucket: "shahar-ori-project.firebasestorage.app",
+        messagingSenderId: "280321083449",
+        appId: "1:280321083449:web:04a00268976647ac1425e8",
+        measurementId: "G-096JB58PQZ"
+      };
+    
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Set persistence to SESSION only
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
+          console.log("Session persistence set.");
+        })
+        .catch((error) => {
+          console.error("Error setting persistence:", error);
+        });
+
+      
+      // Manage visibility of buttons based on authentication state
+    firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // If user is logged in
+      document.getElementById("loginbutton").style.display = "none";
+      document.getElementById("signupbutton").style.display = "none";
+      document.getElementById("logoutbutton").style.display = "block";
+
+      // Show menu items
+      document.getElementById("homeMenu").style.display = "block";
+      document.getElementById("myProjectsMenu").style.display = "block";
+      document.getElementById("aboutMenu").style.display = "block";
+      document.getElementById("newProjectMenu").style.display = "block";
+      document.getElementById("contactMenu").style.display = "block";
+      const username = localStorage.getItem("username");
+    if (username) {
+      document.getElementById("welcomeMessage").style.display = "block";
+      document.getElementById("welcomeMessage").innerText = `Hello, ${username}!`;
+    }
+    } else {
+      // If user is logged out
+      document.getElementById("loginbutton").style.display = "block";
+      document.getElementById("signupbutton").style.display = "block";
+      document.getElementById("logoutbutton").style.display = "none";
+
+      // Hide menu items
+      document.getElementById("homeMenu").style.display = "none";
+      document.getElementById("myProjectsMenu").style.display = "none";
+      document.getElementById("aboutMenu").style.display = "none";
+      document.getElementById("newProjectMenu").style.display = "none";
+      document.getElementById("contactMenu").style.display = "none";
+    }
+  });
+
+  // Logout functionality
+  document.getElementById("logoutbutton").addEventListener("click", () => {
+    firebase.auth().signOut()
+      .then(() => {
+        alert("You have been logged out.");
+        window.location.href = "homePage.html"; // Redirect to home page
+      })
+      .catch((error) => {
+        console.error("Error logging out:", error);
+      });
+  });
+
+  
+    </script>
+    
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
